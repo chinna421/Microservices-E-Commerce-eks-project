@@ -6,7 +6,7 @@ provider "aws" {
 # IAM Role for EKS Cluster
 # ----------------------------
 resource "aws_iam_role" "master" {
-  name = "rajashekar-eks-master1"
+  name = "rajashekar-eks-master2"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -39,7 +39,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
 # IAM Role for Worker Nodes
 # ----------------------------
 resource "aws_iam_role" "worker" {
-  name = "rajashekar-eks-worker"
+  name = "rajashekar-eks-worker2"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -54,7 +54,7 @@ resource "aws_iam_role" "worker" {
 }
 
 resource "aws_iam_policy" "autoscaler" {
-  name = "rajashekar-eks-autoscaler-policy1"
+  name = "rajashekar-eks-autoscaler-policy2"
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
@@ -105,7 +105,7 @@ resource "aws_iam_role_policy_attachment" "autoscaler" {
 
 resource "aws_iam_instance_profile" "worker" {
   depends_on = [aws_iam_role.worker]
-  name       = "rajashekar-eks-worker-profile1"
+  name       = "rajashekar-eks-worker-profile2"
   role       = aws_iam_role.worker.name
 }
 
