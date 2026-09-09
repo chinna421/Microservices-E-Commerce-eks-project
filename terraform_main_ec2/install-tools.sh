@@ -18,36 +18,46 @@ npm -v
 
 
 # Install Jenkins
-sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
-sudo yum install -y jenkins
+sudo dnf update -y
+sudo dnf install java-21-amazon-corretto -y
+sudo wget -O /etc/yum.repos.d/jenkins.repo \
+  https://pkg.jenkins.io/rpm-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/rpm-stable/jenkins.io-2026.key
+sudo dnf install jenkins -y
+sudo systemctl status jenkins
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
 #systemctl status jenkins
 
 # Install Terraform
-sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
-sudo yum install -y terraform
-terraform -v
+sudo dnf update -y
+sudo dnf install -y yum-utils
+sudo yum-config-manager --add-repo \
+  https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+  sudo dnf install -y terraform
+  terraform -version
 
 # Install Maven
 sudo yum install -y maven
 mvn -v
 
 # Install ansible
-sudo yum install -y ansible
+sudo dnf update -y
+sudo dnf install -y ansible
 ansible --version
 
 # Install kubectl
-curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
-chmod +x ./kubectl
-sudo mv ./kubectl /usr/local/bin/
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/kubectl
 kubectl version --client
 
 # Install eksctl
-curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-sudo mv /tmp/eksctl /usr/local/bin/
-eksctl version
+curl --silent --location \
+  "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" \
+  | tar xz -C /tmp
+  sudo mv /tmp/eksctl /usr/local/bin/
+  eksctl version
 
 # Install Helm
 wget https://get.helm.sh/helm-v3.6.0-linux-amd64.tar.gz
