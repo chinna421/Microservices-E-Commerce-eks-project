@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM  python:3.10-slim-bookworm
+FROM python:3.10-slim-bookworm AS base
 
-FROM base as builder
+FROM base AS builder
 
 RUN  apt-get update \
     && apt-get install -y --no-install-recommends \
